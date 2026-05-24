@@ -16,11 +16,13 @@ public enum class Width {
     Bits64,
     ;
 
-    override fun toString(): String =
+    private fun fmt(): String =
         when (this) {
             Bits32 -> "32 bits"
             Bits64 -> "64 bits"
         }
+
+    override fun toString(): String = fmt()
 }
 
 /**
@@ -142,7 +144,7 @@ public sealed class Arch {
      */
     public data class Unknown(public val arch: String) : Arch()
 
-    final override fun toString(): String =
+    private fun fmt(): String =
         when (this) {
             ArmV5 -> "armv5"
             ArmV6 -> "armv6"
@@ -168,6 +170,8 @@ public sealed class Arch {
             X64 -> "x86_64"
             is Unknown -> "Unknown: $arch"
         }
+
+    final override fun toString(): String = fmt()
 
     /**
      * Get the width of this architecture.
