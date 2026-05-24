@@ -20,11 +20,13 @@ public enum class Country {
     Us,
     ;
 
-    override fun toString(): String =
+    private fun fmt(): String =
         when (this) {
             Any -> "**"
             Us -> "US"
         }
+
+    override fun toString(): String = fmt()
 }
 
 /**
@@ -61,7 +63,7 @@ public sealed class Language {
             is Es -> country
         }
 
-    final override fun toString(): String =
+    private fun fmt(): String =
         when (this) {
             is Custom -> code
             is En ->
@@ -78,4 +80,6 @@ public sealed class Language {
                     "es"
                 }
         }
+
+    final override fun toString(): String = fmt()
 }

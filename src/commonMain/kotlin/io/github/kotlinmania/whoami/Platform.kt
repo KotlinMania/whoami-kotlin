@@ -9,7 +9,7 @@ public sealed class Platform {
     public data object Bsd : Platform()
     public data object Windows : Platform()
 
-    // FIXME: Non-standard casing; rename to 'Mac' rather than 'MacOs' in whoami 2.0.0.
+    // FIXME: Non-standard casing; rename to `Mac` rather than `MacOs` in whoami 2.0.0.
     public data object MacOS : Platform()
 
     public data object Illumos : Platform()
@@ -28,7 +28,7 @@ public sealed class Platform {
     public data object Hurd : Platform()
     public data class Unknown(public val platform: String) : Platform()
 
-    final override fun toString(): String =
+    private fun fmt(): String =
         when (this) {
             Linux -> "Linux"
             Bsd -> "BSD"
@@ -45,4 +45,6 @@ public sealed class Platform {
             Hurd -> "GNU Hurd"
             is Unknown -> "Unknown: $platform"
         }
+
+    final override fun toString(): String = fmt()
 }

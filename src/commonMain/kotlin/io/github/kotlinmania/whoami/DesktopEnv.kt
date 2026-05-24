@@ -40,7 +40,7 @@ public sealed class DesktopEnv {
     /**
      * KDE Plasma desktop environment.
      */
-    // FIXME: Rename to 'Plasma' in whoami 2.0.0.
+    // FIXME: Rename to `Plasma` in whoami 2.0.0.
     public data object Kde : DesktopEnv()
 
     /**
@@ -98,7 +98,7 @@ public sealed class DesktopEnv {
      */
     public data class Unknown(public val name: String) : DesktopEnv()
 
-    final override fun toString(): String =
+    private fun fmt(): String =
         when (this) {
             Gnome -> "Gnome"
             Windows -> "Windows"
@@ -119,6 +119,8 @@ public sealed class DesktopEnv {
             Orbital -> "Orbital"
             is Unknown -> "Unknown: $name"
         }
+
+    final override fun toString(): String = fmt()
 
     /**
      * Returns true if the desktop environment is based on GTK.
