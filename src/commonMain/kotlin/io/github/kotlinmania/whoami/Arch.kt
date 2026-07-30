@@ -142,7 +142,9 @@ public sealed class Arch {
     /**
      * Unknown architecture.
      */
-    public data class Unknown(public val arch: String) : Arch()
+    public data class Unknown(
+        public val arch: String,
+    ) : Arch()
 
     private fun fmt(): String =
         when (this) {

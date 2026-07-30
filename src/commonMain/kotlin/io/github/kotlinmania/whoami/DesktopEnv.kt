@@ -96,7 +96,9 @@ public sealed class DesktopEnv {
     /**
      * Unknown desktop environment.
      */
-    public data class Unknown(public val name: String) : DesktopEnv()
+    public data class Unknown(
+        public val name: String,
+    ) : DesktopEnv()
 
     private fun fmt(): String =
         when (this) {
