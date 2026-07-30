@@ -41,17 +41,23 @@ public sealed class Language {
     /**
      * Custom language code.
      */
-    public data class Custom(public val code: String) : Language()
+    public data class Custom(
+        public val code: String,
+    ) : Language()
 
     /**
      * `en`: English.
      */
-    public data class En(public val country: Country) : Language()
+    public data class En(
+        public val country: Country,
+    ) : Language()
 
     /**
      * `es`: Spanish.
      */
-    public data class Es(public val country: Country) : Language()
+    public data class Es(
+        public val country: Country,
+    ) : Language()
 
     /**
      * Retrieve the country code for this language dialect.

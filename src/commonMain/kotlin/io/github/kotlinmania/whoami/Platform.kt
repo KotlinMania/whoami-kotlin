@@ -6,14 +6,18 @@ package io.github.kotlinmania.whoami
  */
 public sealed class Platform {
     public data object Linux : Platform()
+
     public data object Bsd : Platform()
+
     public data object Windows : Platform()
 
     // FIXME: Non-standard casing; rename to `Mac` rather than `MacOs` in whoami 2.0.0.
     public data object MacOS : Platform()
 
     public data object Illumos : Platform()
+
     public data object Ios : Platform()
+
     public data object Android : Platform()
 
     // FIXME: Separate for different Nintendo consoles in whoami 2.0.0; currently only used for 3DS.
@@ -23,10 +27,16 @@ public sealed class Platform {
     public data object Xbox : Platform()
 
     public data object PlayStation : Platform()
+
     public data object Fuchsia : Platform()
+
     public data object Redox : Platform()
+
     public data object Hurd : Platform()
-    public data class Unknown(public val platform: String) : Platform()
+
+    public data class Unknown(
+        public val platform: String,
+    ) : Platform()
 
     private fun fmt(): String =
         when (this) {
