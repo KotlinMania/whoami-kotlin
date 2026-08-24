@@ -16,14 +16,14 @@ class PlatformLanguageTest {
 
     @Test
     fun languageDisplayNamesMatchUpstream() {
-        assertEquals("**", Country.Any.toString())
+        assertEquals("**", Country.AnyCountry.toString())
         assertEquals("US", Country.Us.toString())
-        assertEquals("en", Language.En(Country.Any).toString())
+        assertEquals("en", Language.En(Country.AnyCountry).toString())
         assertEquals("en/US", Language.En(Country.Us).toString())
-        assertEquals("es", Language.Es(Country.Any).toString())
+        assertEquals("es", Language.Es(Country.AnyCountry).toString())
         assertEquals("es/US", Language.Es(Country.Us).toString())
         assertEquals("zz/custom", Language.Custom("zz/custom").toString())
-        assertEquals(Country.Any, Language.Custom("zz/custom").country())
+        assertEquals(Country.AnyCountry, Language.Custom("zz/custom").country())
         assertEquals(Country.Us, Language.En(Country.Us).country())
     }
 }

@@ -12,7 +12,7 @@ public enum class Country {
     /**
      * Any dialect.
      */
-    Any,
+    AnyCountry,
 
     /**
      * `US`: United States of America.
@@ -22,7 +22,7 @@ public enum class Country {
 
     private fun fmt(): String =
         when (this) {
-            Any -> "**"
+            AnyCountry -> "**"
             Us -> "US"
         }
 
@@ -64,7 +64,7 @@ public sealed class Language {
      */
     public fun country(): Country =
         when (this) {
-            is Custom -> Country.Any
+            is Custom -> Country.AnyCountry
             is En -> country
             is Es -> country
         }
@@ -73,14 +73,14 @@ public sealed class Language {
         when (this) {
             is Custom -> code
             is En ->
-                if (country != Country.Any) {
+                if (country != Country.AnyCountry) {
                     "en/$country"
                 } else {
                     "en"
                 }
 
             is Es ->
-                if (country != Country.Any) {
+                if (country != Country.AnyCountry) {
                     "es/$country"
                 } else {
                     "es"
