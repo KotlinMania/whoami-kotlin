@@ -8,7 +8,7 @@ Based on AST analysis, here are the concrete next steps.
 - **Function parity:** 9/131 matched (target 23) — 6.9%
 - **Class/type parity:** 7/18 matched (target 68) — 38.9%
 - **Combined symbol parity:** 16/149 matched (target 91) — 10.7%
-- **Average inline-code cosine:** 0.59 (function body across 6 matched files)
+- **Average inline-code cosine:** 0.58 (function body across 6 matched files)
 - **Average documentation cosine:** 0.70 (doc text across 6 matched files)
 - **Cheat-zeroed Files:** 0
 - **Critical Issues:** 4 files with <0.60 function similarity
@@ -63,9 +63,9 @@ Every matched file is listed below with function and type symbol parity.
 ### 4. language
 
 - **Target:** `whoami.Language`
-- **Similarity:** 0.69
+- **Similarity:** 0.64
 - **Dependents:** 0
-- **Priority Score:** 403.1
+- **Priority Score:** 403.6
 - **Functions:** 2/2 matched (target 5)
 - **Missing functions:** _none_
 - **Types:** 2/2 matched (target 5)
