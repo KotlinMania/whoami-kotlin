@@ -4,18 +4,17 @@ import PackageDescription
 let package = Package(
     name: "SwiftTestHarness",
     platforms: [
-        .macOS(.v14)
+        .macOS(.v15),
     ],
     dependencies: [
         .package(name: "Whoami", path: "../build/SPMPackage/macosArm64/Debug")
     ],
     targets: [
-        .executableTarget(
+        .testTarget(
             name: "SwiftTestHarnessTests",
             dependencies: [
                 .product(name: "WhoamiLibrary", package: "Whoami")
             ],
-            path: "Tests/SwiftTestHarnessTests",
             swiftSettings: [
                 .unsafeFlags([
                     "-F", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
@@ -33,4 +32,3 @@ let package = Package(
         ),
     ]
 )
-
