@@ -71,20 +71,25 @@ public sealed class Language {
 
     private fun fmt(): String =
         when (this) {
-            is Custom -> code
-            is En ->
+            is Custom -> {
+                code
+            }
+
+            is En -> {
                 if (country != Country.AnyCountry) {
                     "en/$country"
                 } else {
                     "en"
                 }
+            }
 
-            is Es ->
+            is Es -> {
                 if (country != Country.AnyCountry) {
                     "es/$country"
                 } else {
                     "es"
                 }
+            }
         }
 
     final override fun toString(): String = fmt()
