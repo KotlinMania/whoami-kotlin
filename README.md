@@ -20,9 +20,14 @@ This is an **in-progress port**. The goal is feature parity with the upstream Ru
 
 ```kotlin
 dependencies {
-    implementation("io.github.kotlinmania:whoami-kotlin:0.1.0")
+    implementation("io.github.kotlinmania:whoami-kotlin:0.2.0")
 }
 ```
+
+### Migrating from 0.1.0
+
+- Replace `Country.Any` with `Country.AnyCountry`. The renamed entry avoids a Swift reserved keyword collision.
+- Native 32-bit targets and Apple x64 targets are retired. Version 0.2.0 does not publish Android native arm32/x86, iOS x64, or watchOS arm32/arm64 (arm64_32) artifacts.
 
 ### Building
 
