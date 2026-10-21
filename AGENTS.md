@@ -504,7 +504,7 @@ That's a state, not a "mode."
 Every repo is strictly pure Kotlin on KMP. Never add a Java or JVM-only
 dependency, never import `java.*` / `javax.*` in common code, and never reach
 for platform crypto or IO when a port exists. The workspace's 200+ Rust ports
-(`ls -d ../*-kotlin` from any repo) are a near-complete
+(`ls -d /Volumes/stuff/Projects/kotlinmania/*-kotlin`) are a near-complete
 Java replacement. Common needs and the port to use:
 
 | Need | Use |
@@ -734,6 +734,13 @@ For repos that target Android, we use a Gradle-backed SDK installer. For complet
 ## 9. JS test-toolchain security patching
 
 For JS npm warning mitigation, resolutions, vendored karma-webpack setups, and Dependabot vulnerability resolutions, please refer to [JS_SECURITY.md](JS_SECURITY.md).
+
+### Automated yarn lock upgrades — do NOT run manually
+`kotlinUpgradeYarnLock` and `kotlinWasmUpgradeYarnLock` are wired directly into `build.gradle.kts` as pre-requisite dependencies for all JS and WASM compile/test tasks (`jsTasksNeedingYarnLock`, `wasmTasksNeedingYarnLock`), `hostTests`, and `fullTargetBuildTaskNames` (`./gradlew build`).
+
+**Never run `./gradlew kotlinUpgradeYarnLock` or `./gradlew kotlinWasmUpgradeYarnLock` manually.**
+Running `./gradlew test` or `./gradlew build` automatically triggers lockfile upgrades before any compilation or testing begins. Running them manually is redundant and forbidden.
+
 
 ### Automated yarn lock upgrades — do NOT run manually
 `kotlinUpgradeYarnLock` and `kotlinWasmUpgradeYarnLock` are wired directly into `build.gradle.kts` as pre-requisite dependencies for all JS and WASM compile/test tasks (`jsTasksNeedingYarnLock`, `wasmTasksNeedingYarnLock`), `hostTests`, and `fullTargetBuildTaskNames` (`./gradlew build`).
