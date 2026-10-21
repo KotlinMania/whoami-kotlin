@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 root = Path(__file__).resolve().parent.parent
-command = ['swift', 'test', '--jobs', '2', '-v', '-Xswiftc', '-warnings-as-errors',
+command = ['swift', 'test', '--scratch-path', str(root / 'build/swift-harness-km2'), '--jobs', '2', '-v', '-Xswiftc', '-warnings-as-errors',
            '-Xswiftc', '-target', '-Xswiftc', 'arm64-apple-macosx15.0']
 developer = subprocess.check_output(['xcode-select', '-p'], text=True).strip()
 if developer.endswith('CommandLineTools'):
@@ -22,7 +22,7 @@ log.parent.mkdir(parents=True, exist_ok=True)
 log.write_text(result.stdout)
 print(result.stdout, end='')
 subprocess.run(['python3', str(root / 'verification/prepare_swift_tooling.py'), '--output',
-                str(root / 'build/swift-tooling'), '--verify-only'], check=True)
+                str(root / 'build/swift-tooling-km2'), '--verify-only'], check=True)
 if result.returncode:
     sys.exit(result.returncode)
 frontends = []
