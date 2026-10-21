@@ -6,6 +6,41 @@ import shlex
 import subprocess
 import sys
 
+def verify_log(output):
+    frontends = []
+    manifest_frontends = 0
+    for line in output.splitlines():
+        if 'swift-frontend' not in line or ' -frontend ' not in line:
+            continue
+        args = shlex.split(line)
+        if '-module-name' not in args:
+            continue
+        module = args[args.index('-module-name') + 1]
+        if module == 'main' and any(Path(value).name == 'Package.swift' for value in args):
+            manifest_frontends += 1
+            continue
+        mode = args[args.index('-swift-version') + 1] if '-swift-version' in args else None
+        if '-warnings-as-errors' not in args:
+            raise ValueError('Frontend lacks warnings as errors: ' + module)
+        if module == 'SwiftTestHarnessTests' and mode != '6':
+            raise ValueError('Authored consumer is not explicitly Swift 6')
+        if module not in ['SwiftTestHarnessTests', 'SwiftTestHarnessPackageTests', 'SwiftTestHarnessPackageDiscoveredTests'] and mode != '5':
+            raise ValueError('Generated dependency is not explicitly Swift 5: ' + module)
+        frontends.append(module)
+    if 'SwiftTestHarnessTests' not in frontends or 'Whoami' not in frontends:
+        raise ValueError('Missing actual dependency/consumer frontend evidence')
+    names = ['architectureDisplayNames', 'platformDisplayNames', 'languageCountryAndDisplay', 'countryAndWidthDisplay']
+    for name in names:
+        if len(re.findall(r'Test ' + re.escape(name) + r'\(\) passed', output)) != 1:
+            raise ValueError('Expected exactly one passed execution: ' + name)
+    if len(re.findall(r'Test run with 4 tests? in .* passed', output)) != 1:
+        raise ValueError('Expected exactly four Swift behavior cases')
+    print('Verified product frontends: ' + str(len(frontends)) + '; separate manifest frontends: ' + str(manifest_frontends), flush=True)
+
+if len(sys.argv) == 3 and sys.argv[1] == '--verify-log':
+    verify_log(Path(sys.argv[2]).read_text())
+    raise SystemExit(0)
+
 root = Path(__file__).resolve().parent.parent
 command = ['swift', 'test', '--scratch-path', str(root / 'build/swift-harness-km2'), '--jobs', '2', '-v', '-Xswiftc', '-warnings-as-errors',
            '-Xswiftc', '-target', '-Xswiftc', 'arm64-apple-macosx15.0']
@@ -25,27 +60,4 @@ subprocess.run(['python3', str(root / 'verification/prepare_swift_tooling.py'), 
                 str(root / 'build/swift-tooling-km2'), '--verify-only'], check=True)
 if result.returncode:
     sys.exit(result.returncode)
-frontends = []
-for line in result.stdout.splitlines():
-    if 'swift-frontend' not in line or ' -frontend ' not in line:
-        continue
-    args = shlex.split(line)
-    if '-module-name' not in args:
-        continue
-    module = args[args.index('-module-name') + 1]
-    mode = args[args.index('-swift-version') + 1] if '-swift-version' in args else None
-    if '-warnings-as-errors' not in args:
-        raise ValueError('Frontend lacks warnings as errors: ' + module)
-    if module == 'SwiftTestHarnessTests' and mode != '6':
-        raise ValueError('Authored consumer is not explicitly Swift 6')
-    if module not in ['SwiftTestHarnessTests', 'SwiftTestHarnessPackageTests', 'SwiftTestHarnessPackageDiscoveredTests'] and mode != '5':
-        raise ValueError('Generated dependency is not explicitly Swift 5: ' + module)
-    frontends.append(module)
-if 'SwiftTestHarnessTests' not in frontends or 'Whoami' not in frontends:
-    raise ValueError('Missing actual dependency/consumer frontend evidence')
-names = ['architectureDisplayNames', 'platformDisplayNames', 'languageCountryAndDisplay', 'countryAndWidthDisplay']
-for name in names:
-    if len(re.findall(r'Test ' + re.escape(name) + r'\(\) passed', result.stdout)) != 1:
-        raise ValueError('Expected exactly one passed execution: ' + name)
-if len(re.findall(r'Test run with 4 tests? in .* passed', result.stdout)) != 1:
-    raise ValueError('Expected exactly four Swift behavior cases')
+verify_log(result.stdout)
